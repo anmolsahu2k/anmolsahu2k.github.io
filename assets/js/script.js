@@ -10,9 +10,112 @@ const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 // sidebar variables
 const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
+const themeToggleButton = document.querySelector("[data-theme-toggle]");
+const themeToggleIcon = document.querySelector("[data-theme-icon]");
+const THEME_STORAGE_KEY = "preferred-theme";
+const analyticsConfig = window.WEBSITE_ANALYTICS || {};
+const ga4MeasurementId = typeof analyticsConfig.ga4MeasurementId === "string"
+  ? analyticsConfig.ga4MeasurementId.trim()
+  : "";
+let analyticsEnabled = false;
+let lastTrackedRouteKey = "";
+
+const applyTheme = function (theme) {
+  const resolvedTheme = theme === "light" ? "light" : "dark";
+  const nextTheme = resolvedTheme === "light" ? "dark" : "light";
+  const label = `Switch to ${nextTheme} mode`;
+
+  document.documentElement.setAttribute("data-theme", resolvedTheme);
+
+  if (themeToggleButton) {
+    themeToggleButton.setAttribute("aria-label", label);
+    themeToggleButton.setAttribute("title", label);
+  }
+
+  if (themeToggleIcon) {
+    themeToggleIcon.setAttribute("name", resolvedTheme === "light" ? "moon-outline" : "sunny-outline");
+  }
+}
+
+const readStoredTheme = function () {
+  try {
+    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (storedTheme === "light" || storedTheme === "dark") {
+      return storedTheme;
+    }
+  } catch (error) {
+    // Ignore storage read errors.
+  }
+
+  return document.documentElement.dataset.theme === "light" ? "light" : "dark";
+}
+
+let activeTheme = readStoredTheme();
+applyTheme(activeTheme);
 
 // sidebar toggle functionality for mobile
 sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
+
+if (themeToggleButton) {
+  themeToggleButton.addEventListener("click", function () {
+    activeTheme = activeTheme === "light" ? "dark" : "light";
+    applyTheme(activeTheme);
+
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, activeTheme);
+    } catch (error) {
+      // Ignore storage write errors.
+    }
+  });
+}
+
+const initializeAnalytics = function () {
+  if (!ga4MeasurementId || ga4MeasurementId === "G-XXXXXXXXXX") {
+    return;
+  }
+
+  const isValidGa4Id = /^G-[A-Z0-9]+$/i.test(ga4MeasurementId);
+  if (!isValidGa4Id) {
+    console.warn("Invalid GA4 measurement ID. Expected format: G-XXXXXXXXXX");
+    return;
+  }
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  window.gtag("js", new Date());
+  window.gtag("config", ga4MeasurementId, { send_page_view: false });
+
+  const gaScript = document.createElement("script");
+  gaScript.async = true;
+  gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ga4MeasurementId)}`;
+  document.head.appendChild(gaScript);
+
+  analyticsEnabled = true;
+}
+
+const trackVirtualPageView = function (page, articleSlug = "") {
+  if (!analyticsEnabled || typeof window.gtag !== "function") {
+    return;
+  }
+
+  let pagePath = page === "about" ? "/" : `/${page}`;
+  if (page === "blog" && articleSlug) {
+    pagePath = `/blog/${articleSlug}`;
+  }
+
+  const routeKey = `${pagePath}|${window.location.hash}|${window.location.search}`;
+  if (routeKey === lastTrackedRouteKey) {
+    return;
+  }
+
+  lastTrackedRouteKey = routeKey;
+
+  window.gtag("event", "page_view", {
+    page_path: pagePath,
+    page_title: document.title,
+    page_location: window.location.href
+  });
+}
 
 
 
@@ -139,28 +242,162 @@ for (let i = 0; i < formInputs.length; i++) {
 // page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
+const articlesListView = document.querySelector("[data-articles-list]");
+const articleDetailView = document.querySelector("[data-article-detail]");
+const articleOpenButtons = document.querySelectorAll("[data-article-open]");
+const articleBackButton = document.querySelector("[data-article-back]");
+const articleContents = document.querySelectorAll("[data-article-content]");
+const DEFAULT_PAGE = "about";
+
+const resetArticlesView = function () {
+  if (!articlesListView || !articleDetailView) {
+    return;
+  }
+
+  articlesListView.hidden = false;
+  articleDetailView.hidden = true;
+
+  for (let i = 0; i < articleContents.length; i++) {
+    articleContents[i].hidden = false;
+  }
+}
+
+const openArticleView = function (slug) {
+  if (!articlesListView || !articleDetailView) {
+    return false;
+  }
+
+  let hasMatch = false;
+
+  articlesListView.hidden = true;
+  articleDetailView.hidden = false;
+
+  for (let i = 0; i < articleContents.length; i++) {
+    const isMatch = articleContents[i].dataset.articleContent === slug;
+    articleContents[i].hidden = !isMatch;
+
+    if (isMatch) {
+      hasMatch = true;
+    }
+  }
+
+  if (!hasMatch) {
+    resetArticlesView();
+    return false;
+  }
+
+  return true;
+}
+
+const hasPage = function (pageName) {
+  for (let i = 0; i < pages.length; i++) {
+    if (pages[i].dataset.page === pageName) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+const setActivePage = function (targetPage) {
+  for (let i = 0; i < pages.length; i++) {
+    pages[i].classList.toggle("active", pages[i].dataset.page === targetPage);
+  }
+
+  for (let i = 0; i < navigationLinks.length; i++) {
+    const navPage = navigationLinks[i].innerHTML.trim().toLowerCase();
+    navigationLinks[i].classList.toggle("active", navPage === targetPage);
+  }
+}
+
+const getRouteFromLocation = function () {
+  const hash = window.location.hash.replace(/^#/, "").trim();
+  let pageFromHash = "";
+  let articleFromHash = "";
+
+  if (hash) {
+    const hashSegments = hash.split("/").filter(Boolean);
+    pageFromHash = hashSegments[0] ? hashSegments[0].toLowerCase() : "";
+    if (hashSegments.length > 1) {
+      const rawArticleSlug = hashSegments.slice(1).join("/");
+
+      try {
+        articleFromHash = decodeURIComponent(rawArticleSlug);
+      } catch (error) {
+        articleFromHash = rawArticleSlug;
+      }
+    }
+  }
+
+  if (pageFromHash) {
+    return { page: pageFromHash, article: articleFromHash };
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const queryPage = params.get("page");
+  const queryArticle = params.get("article");
+
+  return {
+    page: queryPage ? queryPage.toLowerCase() : "",
+    article: queryArticle ? queryArticle : ""
+  };
+}
+
+const applyRouteFromLocation = function () {
+  const route = getRouteFromLocation();
+  const targetPage = hasPage(route.page) ? route.page : DEFAULT_PAGE;
+  let activeArticleSlug = "";
+
+  setActivePage(targetPage);
+
+  if (targetPage === "blog") {
+    if (route.article) {
+      const articleOpened = openArticleView(route.article);
+      if (articleOpened) {
+        activeArticleSlug = route.article;
+      }
+    } else {
+      resetArticlesView();
+    }
+  } else {
+    resetArticlesView();
+  }
+
+  trackVirtualPageView(targetPage, activeArticleSlug);
+  window.scrollTo(0, 0);
+}
+
+const navigateTo = function (page, articleSlug = "") {
+  const nextHash = articleSlug ? `#${page}/${encodeURIComponent(articleSlug)}` : `#${page}`;
+
+  if (window.location.hash !== nextHash) {
+    window.location.hash = nextHash;
+    return;
+  }
+
+  applyRouteFromLocation();
+}
 
 // add event to all nav link
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
     const targetPage = this.innerHTML.trim().toLowerCase();
-
-    for (let j = 0; j < pages.length; j++) {
-      if (targetPage === pages[j].dataset.page) {
-        pages[j].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        pages[j].classList.remove("active");
-      }
-    }
-
-    for (let j = 0; j < navigationLinks.length; j++) {
-      if (navigationLinks[j] === this) {
-        navigationLinks[j].classList.add("active");
-      } else {
-        navigationLinks[j].classList.remove("active");
-      }
-    }
-
+    navigateTo(targetPage);
   });
 }
+
+for (let i = 0; i < articleOpenButtons.length; i++) {
+  articleOpenButtons[i].addEventListener("click", function () {
+    navigateTo("blog", this.dataset.articleOpen);
+  });
+}
+
+if (articleBackButton) {
+  articleBackButton.addEventListener("click", function () {
+    navigateTo("blog");
+  });
+}
+
+initializeAnalytics();
+window.addEventListener("hashchange", applyRouteFromLocation);
+applyRouteFromLocation();

@@ -12,6 +12,26 @@
   -->
   <link rel="shortcut icon" href="./assets/images/logo.ico" type="image/x-icon">
 
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("preferred-theme");
+        if (savedTheme === "light" || savedTheme === "dark") {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        }
+      } catch (error) {
+        // Ignore storage failures and keep default theme.
+      }
+    })();
+  </script>
+
+  <script>
+    window.WEBSITE_ANALYTICS = {
+      // Replace with your GA4 Measurement ID (for example: G-ABCD1234EF)
+      ga4MeasurementId: "G-811GH9KR7F"
+    };
+  </script>
+
   <!--
     - custom css link
   -->
@@ -47,7 +67,7 @@
 
         <div class="info-content">
           <h1 class="name" title="Anmol Sahu">Anmol Sahu</h1>
-          <p style="color:#fff" class="title">&nbsp;<span class="typing"></span></p>
+          <p class="title">&nbsp;<span class="typing"></span></p>
 
           <!-- <p class="title">Software Developer</p> -->
         </div>
@@ -89,21 +109,7 @@
             <div class="contact-info">
               <p class="contact-title">Phone</p>
 
-              <a href="tel:+916377675739" class="contact-link">+916377675739</a>
-            </div>
-
-          </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Birthday</p>
-
-              <time datetime="2000-06-16">June 16, 2000</time>
+              <a href="tel:+14126893928" class="contact-link">+1 (412) 689-3928</a>
             </div>
 
           </li>
@@ -193,6 +199,18 @@
 
           <li class="navbar-item">
             <button class="navbar-link" data-nav-link>Contact</button>
+          </li>
+
+          <li class="navbar-item">
+            <button
+              class="navbar-link theme-toggle"
+              type="button"
+              data-theme-toggle
+              aria-label="Switch to light mode"
+              title="Switch to light mode"
+            >
+              <ion-icon name="sunny-outline" data-theme-icon></ion-icon>
+            </button>
           </li>
 
         </ul>
@@ -317,6 +335,12 @@
         <section class="skills">
 
           <h3 class="h3 skills-title">Skills</h3>
+
+          <div class="skills-summary content-card">
+            <p><strong>SDE:</strong> Python, Java, JavaScript/TypeScript, React.js, Node.js, Spring Boot, microservices, REST APIs, CI/CD.</p>
+            <p><strong>Data:</strong> SQL, R, Pandas, NumPy, Tableau, Power BI, funnel analytics, experimentation, and forecasting.</p>
+            <p><strong>ML:</strong> Scikit-Learn, TensorFlow, PyTorch, spaCy, Hugging Face, OpenCV, Flask, and Streamlit deployment.</p>
+          </div>
 
           <ul class="skills-list has-scrollbar">
 
@@ -510,8 +534,7 @@
       <article class="resume" data-page="resume">
 
         <header>
-          <h2 class="h2 article-title">Resume <a style="color: var(--light-gray-70);display: inline;" href="https://drive.google.com/file/d/1EVPkiJ_HTIAYOiA6oe1jTNCATiUBp9tp/view?usp=sharing" target="_blank"><ion-icon name="open-outline" style="display: inline-block ;"></ion-icon></a></h2>
-          
+          <h2 class="h2 article-title">Resume</h2>
         </header>
 
         <section class="timeline">
@@ -530,7 +553,7 @@
 
               <h4 class="h4 timeline-item-title">Carnegie Mellon University</h4>
 
-              <span>2025 - 2026</span>
+              <span>Aug 2025 - Dec 2026</span>
 
               <p class="timeline-text">
                 Master of Information Systems Management - Business Intelligence and Data Analytics (MISM-BIDA).
@@ -542,27 +565,11 @@
 
               <h4 class="h4 timeline-item-title">Vellore Institute of Technology, Vellore</h4>
 
-              <span>2019 - 2023</span>
+              <span>Jul 2019 - Jul 2023</span>
 
               <p class="timeline-text">
-                B.Tech in Computer Science and Engineering.
+                B.Tech in Computer Science and Engineering (CGPA: 3.87/4).
               </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Air Force School, Kanpur</h4>
-
-              <span>2016 - 2018</span>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Seth Anandram Jaipuria School, Kanpur</h4>
-
-              <span>2006 - 2016</span>
 
             </li>
 
@@ -601,11 +608,11 @@
 
               <h4 class="h4 timeline-item-title">BYJU'S - Software Engineer Intern</h4>
 
-              <span>Jan 2023 - Sep 2023</span>
+              <span>Jan 2023 - Oct 2023</span>
 
               <p class="timeline-text">
                 ○ Optimized batching and scheduling microservices while supporting migration of 10+ services to a horizontal architecture.<br>
-                ○ Built comprehensive backend unit tests for scheduling services and handled frontend delivery for batching services.<br>
+                ○ Built comprehensive backend unit tests for scheduling services with 100% code coverage and reduced release defects through CI validation.<br>
                 ○ Tech stack: React.js, Node.js, Material UI, MongoDB, Spring Boot, Mockito, and JUnit.
               </p>
 
@@ -618,8 +625,8 @@
               <span>Dec 2022 - Jan 2023</span>
 
               <p class="timeline-text">
-                ○ Designed and implemented frontend interfaces that improved usability and engagement.<br>
-                ○ Executed QA and bug-fix cycles across releases to improve production quality.<br>
+                ○ Designed and implemented frontend interfaces that improved usability and engagement by 15%+.<br>
+                ○ Executed QA and bug-fix cycles across releases, resolving 30+ critical issues and improving production quality.<br>
                 ○ Audited frontend code for maintainability, standards compliance, and performance.
               </p>
 
@@ -632,8 +639,8 @@
               <span>Sep 2021 - Nov 2021</span>
 
               <p class="timeline-text">
-                ○ Developed and optimized frontend architecture for a SaaS video platform.<br>
-                ○ Implemented key user-facing features and resolved client-side defects across releases.<br>
+                ○ Developed and optimized frontend architecture for a SaaS video platform processing 1,000+ renders/month.<br>
+                ○ Implemented 5+ user-facing features and resolved 50+ user-reported issues across releases.<br>
                 ○ Contributed as a founding member of the API team and implemented backend endpoints for reliable data flow.
               </p>
 
@@ -748,6 +755,9 @@
               <button data-filter-btn>Web Development</button>
             </li>
             <li class="filter-item">
+              <button data-filter-btn>Data & ML</button>
+            </li>
+            <li class="filter-item">
               <button data-filter-btn>Videos</button>
             </li>
 
@@ -780,6 +790,9 @@
                 <button data-select-item>Web Development</button>
               </li>
               <li class="select-item">
+                <button data-select-item>Data & ML</button>
+              </li>
+              <li class="select-item">
                 <button data-select-item>Videos</button>
               </li>
 
@@ -804,6 +817,7 @@
                 <h3 class="project-title">Classly</h3>
 
                 <p class="project-category">Web Development</p>
+                <p class="project-impact">Red Hat Hack APAC winner ($10,000) - AI-powered learning platform.</p>
 
               </a>
             </li>
@@ -822,6 +836,7 @@
                 <h3 class="project-title">Vishleshan</h3>
 
                 <p class="project-category">Web Development</p>
+                <p class="project-impact">Symbl.ai 2nd place among 1,900+ teams - NLP + CV interview intelligence.</p>
 
               </a>
             </li>
@@ -840,6 +855,7 @@
                 <h3 class="project-title">Sahayak</h3>
 
                 <p class="project-category">Web Development</p>
+                <p class="project-impact">Volunteer emergency response platform recognized at Access Denied '21.</p>
 
               </a>
             </li>
@@ -858,6 +874,64 @@
                 <h3 class="project-title">Medbuddy</h3>
 
                 <p class="project-category">Web Development</p>
+                <p class="project-impact">Telehealth workflow prototype with secure communication and analytics.</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="data & ml">
+              <a href="https://github.com/anmolsahu2k">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/blog-1.jpg" alt="healthcare diagnosis assistant" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Healthcare Diagnosis Assistant</h3>
+
+                <p class="project-category">Data & ML</p>
+                <p class="project-impact">Built Flask + Streamlit diagnostic system with 88% symptom-disease classification accuracy.</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="data & ml">
+              <a href="https://github.com/anmolsahu2k">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/blog-2.jpg" alt="personalized content generator" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Personalized Content Generator</h3>
+
+                <p class="project-category">Data & ML</p>
+                <p class="project-impact">GPT-powered generator with adaptive prompts for personalized learning content delivery.</p>
+
+              </a>
+            </li>
+
+            <li class="project-item  active" data-filter-item data-category="data & ml">
+              <a href="https://github.com/anmolsahu2k">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="./assets/images/blog-3.jpg" alt="multimodal stock movement prediction" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">Multimodal Stock Movement Prediction</h3>
+
+                <p class="project-category">Data & ML</p>
+                <p class="project-impact">Combined sentiment, time series, and candlestick CV signals with Tableau-based insights.</p>
 
               </a>
             </li>
@@ -876,6 +950,7 @@
                 <h3 class="project-title">COVID-19 - Where Do We Stand</h3>
 
                 <p class="project-category">Video</p>
+                <p class="project-impact">Conceptualized and produced an educational explainer on pandemic awareness.</p>
 
               </a>
             </li>
@@ -969,12 +1044,50 @@
       <article class="blog" data-page="blog">
 
         <header>
-          <h2 class="h2 article-title">Blog</h2>
+          <h2 class="h2 article-title">Articles</h2>
         </header>
 
         <section class="blog-posts">
 
-          <div class="blog-post-article">
+          <div class="articles-list-view" data-articles-list>
+            <ul class="blog-posts-list">
+              <li class="blog-post-item">
+                <button class="article-card" type="button" data-article-open="claude-codex-grading-loop">
+
+                  <figure class="blog-banner-box">
+                    <img src="./assets/images/flowc.png" alt="Two-model adversarial review flowchart" loading="lazy">
+                  </figure>
+
+                  <div class="blog-content">
+
+                    <div class="blog-meta">
+                      <p class="blog-category">Engineering</p>
+
+                      <span class="dot"></span>
+
+                      <time datetime="2026-02-24">Feb 24, 2026</time>
+                    </div>
+
+                    <h3 class="h3 blog-item-title">You're Shipping AI Output Without a Second Opinion. Here's How to Fix That.</h3>
+
+                    <p class="blog-text">
+                      Most AI pipelines look like this: send prompt, get output, ship it. Maybe you skim it. Maybe you don't. The model sounds confident, the output looks reasonable, and you move on.
+                    </p>
+
+                  </div>
+
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="article-detail-view" data-article-detail hidden>
+            <button class="article-back-btn" type="button" data-article-back>
+              <ion-icon name="arrow-back-outline"></ion-icon>
+              <span>Back to all articles</span>
+            </button>
+
+            <div class="blog-post-article" data-article-content="claude-codex-grading-loop">
 
             <div class="blog-content">
 
@@ -986,171 +1099,147 @@
                 <time datetime="2026-02-24">Feb 24, 2026</time>
               </div>
 
-              <h3 class="h3 blog-item-title">I Made Claude and Codex Argue About Grades Until the Workflow Was Actually Good</h3>
+              <h3 class="h3 blog-item-title">You're Shipping AI Output Without a Second Opinion. Here's How to Fix That.</h3>
 
               <div class="blog-body">
-                <p>A Claude Code grading command that pits Claude (grader) against Codex (auditor) in an iterative review loop. 5 rounds max, full audit log, and every cap-hit gets flagged for human review.</p>
-                <p><img loading="lazy" src="./assets/images/flowchart.png" alt="The grading loop: Claude drafts grades, Codex audits, Claude revises, Codex re-checks" /></p>
+                <p>Most AI pipelines look like this: send prompt, get output, ship it. Maybe you skim it. Maybe you don&#39;t. The model sounds confident, the output looks reasonable, and you move on.</p>
+                <p>The problem is not that the output is always wrong. It is that you have no systematic way to catch when it is. One model, one pass, no pushback. Confident errors look identical to confident correct answers.</p>
+                <p>The fix: add a second model whose only job is to challenge the first one. Not summarize it. Not reformat it. Challenge it — and force a revision loop until it approves or you escalate to a human.</p>
+                <p>This post covers the pattern, where it applies, and a full worked example to make it concrete.</p>
                 <div class="blog-tldr-box">
-                  <h3>TL;DR</h3>
-                  <p>I adapted the Claude-Codex iterative review pattern for grading Quiz 2 notebooks. Claude drafts rubric-based scores. Codex audits them in read-only mode. If Codex says <code>REVISE</code>, Claude updates the draft and resumes the same Codex session. Loop until <code>APPROVED</code> or round 5.</p>
-                  <p>Get it in this repo:</p>
-                  <ul>
-                  <li><code>.claude/commands/grade-review.md</code></li>
-                  <li><code>grading_scripts/run_grading_loop.py</code></li>
-                  <li><code>grading_scripts/extract_notebook.py</code></li>
-                  <li><code>grading_scripts/rubric.md</code></li>
-                  </ul>
-                  <p>Setup:</p>
-                  <ol>
-                  <li>Install Codex CLI (<code>npm install -g @openai/codex</code>)</li>
-                  <li>Keep the slash command in <code>.claude/commands/grade-review.md</code></li>
-                  <li>Run <code>/grade-review</code> (batch) or <code>/grade-review &lt;notebook_path&gt;</code> (single student)</li>
-                  </ol>
-                  <p>Use it for: rubric-based grading where submissions can be converted to text (<code>.ipynb</code>, essays, short-answer exports).</p>
-                  <p>Skip it for: tiny batches, fully subjective assessments, or cases where manual grading is faster than orchestration.</p>
-                  <p>Result from the debugging run: the loop surfaced real grading/implementation issues, including a parameter-extraction code bug in a student notebook and multiple orchestration bugs in my own script.</p>
+                <h3>TL;DR</h3>
+                <p>Two models, one task. Agent A proposes output. Agent B audits it with structured feedback and a machine-parseable verdict. They iterate until approved or a round cap triggers human review. Every decision is logged.</p>
+                <p>The worked example is a Claude Code slash command for grading Jupyter notebooks (<a href="https://gist.github.com/anmolsahu2k/715f4e705ed7fe77708c91ec90e5b219">full skill on GitHub</a>) — Claude grades, Codex audits in read-only mode, up to 5 rounds, final scores write to CSV. But the pattern generalizes to any pipeline where you are currently shipping single-model output without a verification layer.</p>
                 </div>
-                <hr />
-                <p>I use Claude Code a lot for TA workflows. The first pass was fast, but I kept seeing the same issue: one model can be consistent, but it is not adversarial. It does not challenge itself.</p>
-                <p>So I stopped asking one model to be both grader and reviewer. Claude proposes. Codex audits. They go back-and-forth until there is a clean verdict.</p>
-                <h2>The Problem: Single-Model Blindness</h2>
-                <p>When one model both produces and &quot;reviews&quot; a grade, you get coherent output without real pushback.</p>
-                <p>I kept seeing this pattern:</p>
-                <ul>
-                <li>Reasonable-looking scores with shaky evidence mapping</li>
-                <li>Missed rubric deductions on technical details</li>
-                <li>Over-credit when code <em>looked</em> right but variables were wrong</li>
-                <li>Reviewer responses that sounded confident but were not strictly machine-parseable</li>
-                </ul>
-                <p>The grading bottleneck was not speed. It was confidence.</p>
-                <h2>The Solution: <code>/grade-review</code></h2>
-                <p>I implemented a project-level Claude slash command: <code>/grade-review</code>.</p>
-                <p>Claude handles grading and revision. Codex handles auditing. The Python script orchestrates state and writes the final artifacts.</p>
-                <h3>How it works</h3>
-                <pre><code class="language-text">You: /grade-review
-                
+                <p><img loading="lazy" src="./assets/images/flowc.png" alt="Two-model adversarial review flowchart"></p>
+                <hr>
+                <h2>The Pattern: Two-Model Adversarial Review</h2>
+                <pre><code class="language-text">
+                Round 1:
+                  Agent A reads context + task
+                  → produces draft output
+                  → sends to Agent B for audit
+
+                Round 2..N:
+                  Agent B returns VERDICT: REVISE + structured issues
+                  → Agent A updates draft, carries full state
+                  → Agent B re-checks in same session context
+
+                Stop:
+                  VERDICT: APPROVED → ship output + log
+                  round == max → flag for human review + log
+                </code></pre>
+                <p>Three things make this work in practice:</p>
+                <p><strong>Strict verdict protocol.</strong> Agent B must return a machine-parseable signal — <code>VERDICT: APPROVED</code> or <code>VERDICT: REVISE</code> — not free-form prose. Automation needs a deterministic stop condition. Prose is not one.</p>
+                <p><strong>Structured issue format.</strong> Vague critique (&quot;this looks off&quot;) does not give Agent A enough to act on. Structured feedback (<code>ISSUE: &lt;location&gt; | PROBLEM: &lt;description&gt; | SUGGESTED_FIX: &lt;value&gt;</code>) does. It also makes it easy to detect no-op loops — if Agent A already applied all suggested fixes, treat the round as approved.</p>
+                <p><strong>Explicit state on resume.</strong> Agent B needs to see what changed between rounds, not just the current output. Without a state delta, it will repeat prior feedback even after issues are resolved. Carry the full current draft plus a per-issue change summary on every resume prompt.</p>
+                <blockquote>
+                <p>One model gives you an answer. Two models give you a verified answer.</p>
+                </blockquote>
+                <hr>
+                <h2>Where This Pattern Applies</h2>
+                <p>Any pipeline where you are currently taking single-model output at face value is a candidate.</p>
+                <p><strong>Code review.</strong> Agent A writes or refactors code. Agent B audits for correctness, edge cases, and logic errors. Particularly valuable for catching subtle bugs that look right syntactically but break on real inputs.</p>
+                <p><strong>Document QA.</strong> Agent A drafts a contract, report, or policy doc. Agent B checks for internal inconsistencies, missing clauses, or factual gaps. Single-model output consistently misses contradictions it introduced itself.</p>
+                <p><strong>Content moderation.</strong> Agent A classifies content. Agent B audits borderline cases and flags disagreements for human review. Reduces both false positives and overconfident calls on ambiguous inputs.</p>
+                <p><strong>Test generation.</strong> Agent A writes unit tests. Agent B checks whether they actually cover the specified behavior and would catch the bugs they claim to. Single-model test generation often produces tests that pass trivially without testing anything meaningful.</p>
+                <p><strong>Rubric-based grading.</strong> Agent A scores student submissions. Agent B audits for evidence mapping, rubric alignment, and over-credit on output that looks right but is subtly wrong. This is the worked example below.</p>
+                <p>The pattern applies whenever: output quality is hard to verify by inspection alone, errors are subtle rather than obvious, and consistency across a batch matters.</p>
+                <hr>
+                <h2>Worked Example: Grading Notebooks with Claude + Codex</h2>
+                <p>I built this as a TA grading Quiz 2 notebooks. Claude handles grading and revision. Codex audits in read-only mode. A Python orchestration script manages state, loop control, and writes final artifacts.</p>
+                <p>Grading is a good test case because it has all the properties that make single-pass output dangerous: rubric criteria are subtle, over-credit on plausible-but-wrong answers is easy, and you are processing 40+ submissions where consistency drift is a real problem.</p>
+                <h3>Implementation</h3>
+                <pre><code class="language-text">
                 Round 1:
                   Claude reads rubric + extracted notebook text
-                  -&gt; writes draft JSON scores/rationales
-                  -&gt; run_grading_loop.py sends prompt to Codex
-                  -&gt; Codex responds VERDICT: APPROVED or VERDICT: REVISE
-                
+                  → writes draft JSON scores and rationales
+                  → run_grading_loop.py sends prompt to Codex
+                  → Codex responds VERDICT: APPROVED or VERDICT: REVISE
+
                 Round 2..N:
                   Claude updates draft from ISSUE lines
-                  -&gt; run_grading_loop.py resumes same Codex session
-                  -&gt; Codex verifies whether those fixes were actually applied
-                
+                  → run_grading_loop.py resumes same Codex session
+                  → Codex verifies whether those fixes were actually applied
+
                 Stop:
-                  APPROVED -&gt; append Quiz2_Grades_AI.csv + log final section
-                  round == 5 -&gt; append anyway and flag for human review
+                  APPROVED → append to grades CSV + log final section
+                  round == 5 → append anyway and flag for human review
                 </code></pre>
-                <p>The key mechanics:</p>
-                <ul>
-                <li>Codex runs in read-only mode</li>
-                <li>Resume uses explicit session ID (no <code>--last</code> ambiguity)</li>
-                <li>Every round is appended to <code>grading_log.md</code></li>
-                </ul>
-                <p>&quot;The point is not to make grading autonomous. The point is to make it auditable and harder to fool.&quot;</p>
-                <h2>Before and After</h2>
-                <h3>Before: single-pass grading</h3>
-                <p>I would read a notebook, score it, maybe spot-check, and move on. Fast, but fragile. Once you're deep into a batch, consistency drifts.</p>
-                <h3>After: iterative cross-model review</h3>
-                <p>Same grading task, but with an explicit propose-audit-revise loop.</p>
-                <p>What changed immediately:</p>
-                <ul>
-                <li>I got structured <code>ISSUE P&lt;n&gt;: ... | SUGGESTED_SCORE: &lt;n&gt;</code> feedback instead of vague critique</li>
-                <li>Resume rounds checked whether previous issues were actually fixed</li>
-                <li>Stuck cases became visible and reviewable instead of silently drifting into &quot;good enough&quot;</li>
-                </ul>
-                <p>In one concrete case, Codex flagged over-credit on a notebook where predicted hazard used the wrong fitted-variable reference during parameter extraction. That is exactly the kind of subtle mismatch that slips through fast manual review.</p>
-                <h2>Design Decisions</h2>
-                <h3>Why static analysis only?</h3>
-                <p>No execution. Grade what the student wrote, not what happened to run once in a notebook state. This avoids giving credit to brittle code that only works due to hidden kernel state.</p>
-                <h3>Why a slash command, not hardcoded script prompts?</h3>
-                <p>The grading behavior lives in <code>.claude/commands/grade-review.md</code>, so prompt policy is editable and versioned with the course repo.</p>
-                <h3>Why iterative, not one-shot?</h3>
-                <p>One-shot audit finds problems. Iterative audit verifies fixes.</p>
-                <p>Loop semantics:</p>
+                <p>Codex runs read-only — it flags issues, it does not change output directly. Session resume uses an explicit session ID so Codex remembers what it flagged and can verify whether the latest draft actually addressed those exact points, not just acknowledged them.</p>
+                <h3>What it caught</h3>
+                <p>In one concrete case, Codex flagged over-credit on a notebook where predicted hazard used the wrong fitted-variable reference during parameter extraction. The code looked right. The variable was wrong. That is exactly the kind of subtle error that passes a single-pass review every time.</p>
+                <h3>Single-pass vs. two-model: the comparison</h3>
+                <table>
+                <thead>
+                <tr>
+                <th></th>
+                <th>❌ Manual</th>
+                <th>⚠️ Single-pass</th>
+                <th>✅ Two-model</th>
+                </tr>
+                </thead>
+                <tbody><tr>
+                <td>Speed</td>
+                <td>Slow</td>
+                <td>Fast</td>
+                <td>Fast-ish</td>
+                </tr>
+                <tr>
+                <td>Consistency</td>
+                <td>Drifts</td>
+                <td>High</td>
+                <td>High</td>
+                </tr>
+                <tr>
+                <td>Catches subtle errors</td>
+                <td>Sometimes</td>
+                <td>Rarely</td>
+                <td>Yes</td>
+                </tr>
+                <tr>
+                <td>Pushback on bad output</td>
+                <td>None</td>
+                <td>None</td>
+                <td>Structured, per-issue</td>
+                </tr>
+                <tr>
+                <td>Audit trail</td>
+                <td>None</td>
+                <td>None</td>
+                <td>Full</td>
+                </tr>
+                <tr>
+                <td>Human escalation</td>
+                <td>Always</td>
+                <td>Never</td>
+                <td>On cap-hit</td>
+                </tr>
+                </tbody></table>
+                <hr>
+                <h2>Bugs Worth Knowing About</h2>
+                <p><strong>No state delta on resume.</strong> Agent B repeated prior feedback even after output changed, because the resume message said &quot;updated&quot; without showing what. Fix: carry the full current draft plus a per-issue change summary in every resume prompt. Resume is not a magic diff.</p>
+                <p><strong>No-op REVISE loops.</strong> Agent B re-issued a suggested fix that was already applied. Fix: before sending a resume prompt, check whether all suggested values already match the current draft. If they do, treat the round as approved.</p>
+                <hr>
+                <h2>How to Adapt This</h2>
                 <ol>
-                <li>Codex flags issues</li>
-                <li>Claude revises the draft</li>
-                <li>Codex re-checks the revised draft in context</li>
-                <li>Repeat until clean or capped</li>
+                <li>Define the task boundary — what Agent A produces, what Agent B is allowed to do.</li>
+                <li>Lock in a strict verdict format before writing any orchestration logic.</li>
+                <li>Design the issue format so fixes are unambiguous and checkable.</li>
+                <li>Build and validate the single-round path before adding resume logic.</li>
+                <li>Set a round cap and a human escalation path before running on real data.</li>
                 </ol>
-                <h3>Why session resume?</h3>
-                <p><code>codex exec resume &lt;session_id&gt;</code> preserves context. Codex remembers what it flagged in prior rounds and can validate whether the latest draft actually addressed those exact points.</p>
-                <h3>Why the VERDICT protocol?</h3>
-                <p>The orchestrator needs a deterministic stop signal. Free-form prose is hard to parse safely in automation. The strict ending (<code>VERDICT: APPROVED</code> or <code>VERDICT: REVISE</code>) keeps loop control simple and robust.</p>
-                <h3>Why a master log?</h3>
-                <p><code>grading_log.md</code> is the audit trail: draft table, Codex verdict per round, final scores, round count. If someone asks &quot;why did this student get 8/10?&quot;, you can answer with evidence.</p>
-                <h2>Technical Implementation</h2>
-                <p>Core pieces:</p>
-                <ul>
-                <li><code>grading_scripts/extract_notebook.py</code>: converts <code>.ipynb</code> cells to plain text</li>
-                <li><code>.claude/commands/grade-review.md</code>: grading workflow contract for Claude</li>
-                <li><code>grading_scripts/run_grading_loop.py</code>: prompt build, Codex call, verdict parse, CSV/log writes</li>
-                <li><code>grading_scripts/rubric.md</code>: canonical rubric text injected into prompts</li>
-                </ul>
-                <p>Outputs:</p>
-                <ul>
-                <li><code>Quiz2_Grades_AI.csv</code> (final score rows)</li>
-                <li><code>grading_log.md</code> (full per-student round history)</li>
-                </ul>
-                <p>Operational safeguards:</p>
-                <ul>
-                <li>Max 5 rounds per student</li>
-                <li>CSV-aware resume (skip already graded IDs in batch mode)</li>
-                <li>No-op REVISE detection when suggested scores already match current draft</li>
-                </ul>
-                <h2>Bugs I Hit (and the fixes)</h2>
-                <p>These were real issues encountered while running the loop.</p>
-                <h3>1) Resume prompt had no state delta</h3>
-                <p>Symptom: Codex repeated prior feedback even after scores changed.</p>
-                <p>Cause: resume message said &quot;I updated grades&quot; but did not show what changed.</p>
-                <p>Fix: include a per-problem change summary + full current draft JSON in resume prompt.</p>
-                <p>&quot;Resume is not magic diff. You have to carry the new state explicitly.&quot;</p>
-                <h3>2) No-op REVISE loops</h3>
-                <p>Symptom: Codex re-issued a suggested score that was already applied.</p>
-                <p>Fix: filter out non-actionable issues; if all suggested scores already match draft, treat as approved.</p>
-                <p>This is now a safety net, not a primary control path.</p>
-                <h2>When to Use This</h2>
-                <p>Use it when:</p>
-                <ul>
-                <li>You have enough submissions that consistency drift matters</li>
-                <li>Rubric criteria are explicit and can be checked from text/code statically</li>
-                <li>You want a paper trail for every grade decision</li>
-                </ul>
-                <p>Do not use it when:</p>
-                <ul>
-                <li>The rubric is mostly subjective judgment</li>
-                <li>You only have a handful of submissions</li>
-                <li>You cannot review cap-hit cases manually</li>
-                </ul>
-                <h2>How to Start (Without Overengineering)</h2>
-                <ol>
-                <li>Freeze your rubric into one markdown file.</li>
-                <li>Force a strict machine-parseable verdict format.</li>
-                <li>Ship one-round grading first; confirm parsing and logging.</li>
-                <li>Add resume rounds only after round-1 path is stable.</li>
-                <li>Add max-round cap + human escalation before batch runs.</li>
-                </ol>
-                <p>You do not need distributed infrastructure. This implementation is local files + one orchestration script.</p>
-                <h2>What's Next</h2>
-                <p>The current version is useful, but obvious upgrades are clear:</p>
-                <ul>
-                <li>Confidence tagging (<code>APPROVED-high</code>, <code>APPROVED-low</code>)</li>
-                <li>Better failure handling and explicit command exit-code guards</li>
-                <li>Cost/token metrics per student and per round</li>
-                <li>Per-rubric templates for different assignment types</li>
-                </ul>
-                <p>But the core loop already pays off: one model proposes, another challenges, and every decision is logged.</p>
-                <hr />
-                <p>If you run high-stakes, repetitive evaluation, this pattern is practical today: keep the human as final authority, and let two models do structured adversarial pre-review.</p>
-                <p>P.S. Yes, this post was also drafted using the same pattern. At this point, the process is self-referential by design.</p>
+                <p>The infrastructure is minimal: two model calls per round, a session ID, a log file, and a state-carrying resume prompt. No queues, no databases, no distributed anything.</p>
+                <hr>
+                <h2>The Core Tradeoff</h2>
+                <p>Two-model review adds setup cost and slightly more time per output. For one-off tasks or highly subjective output, it is probably not worth it. For high-volume, high-stakes, or consistency-sensitive pipelines — grading, code review, compliance checking, moderation — the audit trail and adversarial pressure pay off quickly.</p>
+                <p>The goal is not to remove humans from the loop. It is to make sure that when something reaches a human, it has already been challenged once.</p>
+                <p>P.S. This post was drafted using the same pattern. At this point the process is self-referential by design.</p>
               </div>
 
             </div>
+
+          </div>
 
           </div>
 
@@ -1174,7 +1263,7 @@
 
         <section class="mapbox" data-mapbox>
           <figure>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.84916296526!2d77.6309395!3d12.9539974!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1668083420912!5m2!1sen!2sin" 
+            <iframe src="https://www.google.com/maps/embed?pb=ChIJA4UGSG_xNIgRNBuiWqEV-Y0" 
             width="400" height="450" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </figure>
         </section>
@@ -1220,7 +1309,7 @@
   <script src="assets/vendor/typed.js/typed.min.js"></script>
   <script type="text/javascript">
     var typed = new Typed('.typing',{
-      strings: ["CMU MISM-BIDA", "Software Engineer", "Hackathon Winner", "Data-Driven Builder"],
+      strings: ["SDE | Data | ML", "CMU MISM-BIDA", "Software Engineer", "Hackathon Winner"],
       loop: true,
       cursorChar:'',
       typeSpeed: 80,
