@@ -10,15 +10,22 @@ const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 // sidebar variables
 const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
+const sidebarPanelToggleButton = document.querySelector("[data-sidebar-panel-toggle]");
+const sidebarPanelToggleIcon = document.querySelector("[data-sidebar-panel-icon]");
+const sidebarPanelReopenButton = document.querySelector("[data-sidebar-panel-reopen]");
+const sidebarPanelReopenIcon = document.querySelector("[data-sidebar-panel-reopen-icon]");
 const themeToggleButton = document.querySelector("[data-theme-toggle]");
 const themeToggleIcon = document.querySelector("[data-theme-icon]");
 const THEME_STORAGE_KEY = "preferred-theme";
+const SIDEBAR_PANEL_ANIMATION_MS = 320;
 const analyticsConfig = window.WEBSITE_ANALYTICS || {};
 const ga4MeasurementId = typeof analyticsConfig.ga4MeasurementId === "string"
   ? analyticsConfig.ga4MeasurementId.trim()
   : "";
 let analyticsEnabled = false;
 let lastTrackedRouteKey = "";
+let sidebarPanelCollapsed = false;
+let sidebarPanelAnimating = false;
 
 const applyTheme = function (theme) {
   const resolvedTheme = theme === "light" ? "light" : "dark";
@@ -50,11 +57,105 @@ const readStoredTheme = function () {
   return document.documentElement.dataset.theme === "light" ? "light" : "dark";
 }
 
+const setSidebarPanelControls = function (isCollapsed) {
+  const toggleLabel = isCollapsed ? "Show left panel" : "Hide left panel";
+  const reopenLabel = isCollapsed ? "Show left panel" : "Hide left panel";
+
+  if (sidebarPanelToggleButton) {
+    sidebarPanelToggleButton.setAttribute("aria-label", toggleLabel);
+    sidebarPanelToggleButton.setAttribute("title", toggleLabel);
+  }
+
+  if (sidebarPanelToggleIcon) {
+    sidebarPanelToggleIcon.setAttribute("name", isCollapsed ? "chevron-forward-outline" : "chevron-back-outline");
+  }
+
+  if (sidebarPanelReopenButton) {
+    sidebarPanelReopenButton.setAttribute("aria-label", reopenLabel);
+    sidebarPanelReopenButton.setAttribute("title", reopenLabel);
+  }
+
+  if (sidebarPanelReopenIcon) {
+    sidebarPanelReopenIcon.setAttribute("name", isCollapsed ? "chevron-forward-outline" : "chevron-back-outline");
+  }
+}
+
 let activeTheme = readStoredTheme();
 applyTheme(activeTheme);
+setSidebarPanelControls(sidebarPanelCollapsed);
+
+const finishSidebarPanelAnimation = function () {
+  document.body.classList.remove("sidebar-panel-animating", "sidebar-panel-opening", "sidebar-panel-closing");
+  sidebarPanelAnimating = false;
+}
+
+const setSidebarPanelCollapsed = function (shouldCollapse, animate = true) {
+  if (!sidebar || sidebarPanelAnimating || shouldCollapse === sidebarPanelCollapsed) {
+    setSidebarPanelControls(sidebarPanelCollapsed);
+    return;
+  }
+
+  if (!animate) {
+    document.body.classList.toggle("sidebar-panel-collapsed", shouldCollapse);
+    sidebarPanelCollapsed = shouldCollapse;
+    setSidebarPanelControls(sidebarPanelCollapsed);
+    return;
+  }
+
+  sidebarPanelAnimating = true;
+  document.body.classList.add("sidebar-panel-animating");
+  document.body.classList.toggle("sidebar-panel-closing", shouldCollapse);
+  document.body.classList.toggle("sidebar-panel-opening", !shouldCollapse);
+
+  if (!shouldCollapse) {
+    document.body.classList.remove("sidebar-panel-collapsed");
+  }
+
+  let animationSettled = false;
+  const settleAnimation = function () {
+    if (animationSettled) {
+      return;
+    }
+
+    animationSettled = true;
+
+    if (shouldCollapse) {
+      document.body.classList.add("sidebar-panel-collapsed");
+    }
+
+    sidebarPanelCollapsed = shouldCollapse;
+    finishSidebarPanelAnimation();
+    setSidebarPanelControls(sidebarPanelCollapsed);
+  }
+
+  sidebar.addEventListener("animationend", function onSidebarAnimationEnd(event) {
+    if (event.target !== sidebar) {
+      return;
+    }
+
+    sidebar.removeEventListener("animationend", onSidebarAnimationEnd);
+    settleAnimation();
+  });
+
+  setTimeout(settleAnimation, SIDEBAR_PANEL_ANIMATION_MS + 80);
+}
 
 // sidebar toggle functionality for mobile
-sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
+if (sidebarBtn) {
+  sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
+}
+
+if (sidebarPanelToggleButton) {
+  sidebarPanelToggleButton.addEventListener("click", function () {
+    setSidebarPanelCollapsed(!sidebarPanelCollapsed, true);
+  });
+}
+
+if (sidebarPanelReopenButton) {
+  sidebarPanelReopenButton.addEventListener("click", function () {
+    setSidebarPanelCollapsed(false, true);
+  });
+}
 
 if (themeToggleButton) {
   themeToggleButton.addEventListener("click", function () {
